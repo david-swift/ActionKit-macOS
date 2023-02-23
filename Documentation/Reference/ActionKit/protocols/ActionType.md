@@ -3,7 +3,7 @@
 # `ActionType`
 
 ```swift
-public protocol ActionType
+public protocol ActionType: Codable
 ```
 
 A type that can be used in the actions.

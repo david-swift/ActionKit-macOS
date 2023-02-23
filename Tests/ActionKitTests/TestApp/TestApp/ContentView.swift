@@ -13,39 +13,13 @@ import SwiftUI
 /// The test app's content.
 struct ContentView: View {
 
-    /// An example function.
-    @State private var function = Function(
-        id: "hi",
-        name: "Hi",
-        description: "A test function",
-        input: [
-            .init("String", type: String.self),
-            .init("Double", type: Double.self),
-            .init("Boolean", type: Bool.self)
-        ], output: [
-            .init("Output", type: String.self)
-        ],
-        functions: .default + [
-            .init("Print", icon: .init(systemSymbol: .textJustify)) {
-                .init(
-                    id: "print",
-                    name: "Print",
-                    description: "Print a text into the developer's console.",
-                    input: [.init("Text", type: String.self)]
-                ) { input in
-                    print(input.first as? String ?? "-")
-                    return []
-                }
-            }
-        ]
-    )
-    /// An example error.
-    @State private var error: String?
+    /// The view model.
+    @StateObject private var model = ViewModel()
 
     /// The view's body.
     var body: some View {
         FunctionEditor(
-            $function,
+            $model.function.function,
             zoom: 1
         ) { _ in
 
@@ -53,7 +27,7 @@ struct ContentView: View {
             TaggedView(tag: "run") {
                 Button {
                     do {
-                        let output = try function.run(input: ["Hello", 5, Bool.random()])
+                        let output = try model.function.function.run(input: ["Hello", 5, Bool.random()])
                         for outputItem in output {
                             print(outputItem)
                         }
@@ -62,7 +36,7 @@ struct ContentView: View {
                         if let error = error as? Function.ExecutionError {
                             switch error {
                             case .emptyIteration:
-                                self.error = "Empty Iteration"
+                                model.error = "Empty Iteration"
                             }
                         }
                     }
@@ -71,6 +45,6 @@ struct ContentView: View {
                 }
             }
         }
-        .throwError(error: $error)
+        .throwError(error: $model.error)
     }
 }

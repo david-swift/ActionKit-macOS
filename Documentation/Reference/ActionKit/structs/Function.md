@@ -36,7 +36,7 @@ A short description of the function.
 ### `dataInput`
 
 ```swift
-private var dataInput: [Parameter]
+private(set) var dataInput: [Parameter]
 ```
 
 The input parameters.
@@ -44,7 +44,7 @@ The input parameters.
 ### `dataOutput`
 
 ```swift
-private var dataOutput: [Parameter]
+private(set) var dataOutput: [Parameter]
 ```
 
 The output parameters.
@@ -97,10 +97,7 @@ The nodes in the function.
 ### `inputNodePosition`
 
 ```swift
-private var inputNodePosition: CGPoint = .init(
-    x: .halfEditorSideLength - .standardNodePositionXOffset,
-    y: .halfEditorSideLength + .standardNodePositionYOffset
-)
+private(set) var inputNodePosition: CGPoint
 ```
 
 The position of the input node in the ``FunctionEditor``.
@@ -108,10 +105,7 @@ The position of the input node in the ``FunctionEditor``.
 ### `outputNodePosition`
 
 ```swift
-private var outputNodePosition: CGPoint = .init(
-    x: .halfEditorSideLength + .standardNodePositionXOffset,
-    y: .halfEditorSideLength - .standardNodePositionYOffset
-)
+private(set) var outputNodePosition: CGPoint
 ```
 
 The position of the output node in the ``FunctionEditor``.
@@ -119,7 +113,7 @@ The position of the output node in the ``FunctionEditor``.
 ### `outputNodeValues`
 
 ```swift
-private var outputNodeValues: [Int: ActionType] = [0: ControlFlow.signal]
+private(set) var outputNodeValues: [Int: ActionType]
 ```
 
 Values for the output node that are defined manually.
@@ -161,7 +155,7 @@ The functions that the nodes can access.
 ### `width`
 
 ```swift
-var width: CGFloat = 150
+var width: CGFloat
 ```
 
 The function nodes' witdth in the ``FunctionEditor``.
@@ -223,7 +217,7 @@ public init(
     getOutput: ( ([ActionType]) -> [ActionType])? = nil,
     nodes: [Node] = [],
     wires: [Wire] = [],
-    functions: [Folder<Function>] = .default
+    functions: [Folder<Function>] = .init()
 )
 ```
 
@@ -237,6 +231,7 @@ The function's initializer.
   - getOutput: The function for getting the output in a function defined by the developer.
   - nodes: The nodes in a function defined by the user.
   - wires: The wires in a function defined by the user.
+  - functions: The functions available for the user for defining the parent function.
 
 #### Parameters
 
@@ -250,6 +245,63 @@ The function's initializer.
 | getOutput | The function for getting the output in a function defined by the developer. |
 | nodes | The nodes in a function defined by the user. |
 | wires | The wires in a function defined by the user. |
+| functions | The functions available for the user for defining the parent function. |
+
+### `init(functionID:name:description:input:output:getOutput:nodes:wires:functions:outputNodeValues:width:inputNodePosition:outputNodePosition:)`
+
+```swift
+init(
+    functionID: String,
+    name: String,
+    description: String,
+    input: [Parameter] = [],
+    output: [Parameter] = [],
+    getOutput: ( ([ActionType]) -> [ActionType])? = nil,
+    nodes: [Node] = [],
+    wires: [Wire] = [],
+    functions: [Folder<Function>] = .init(),
+    outputNodeValues: [Int: ActionType] = [0: ControlFlow.signal],
+    width: CGFloat = 150,
+    inputNodePosition: CGPoint = .init(
+        x: .halfEditorSideLength - .standardNodePositionXOffset,
+        y: .halfEditorSideLength + .standardNodePositionYOffset
+    ),
+    outputNodePosition: CGPoint = .init(
+        x: .halfEditorSideLength + .standardNodePositionXOffset,
+        y: .halfEditorSideLength - .standardNodePositionYOffset
+    )
+)
+```
+
+The function's initializer.
+- Parameters:
+  - functionID: The function's id.
+  - name: The function's name.
+  - description: A short description of the function.
+  - input: The input parameters.
+  - output: The output parameters.
+  - getOutput: The function for getting the output in a function defined by the developer.
+  - nodes: The nodes in a function defined by the user.
+  - wires: The wires in a function defined by the user.
+  - functions: The functions available for the user for defining the parent function.
+  - outputNodeValues: The manually defined values of the output node.
+  - width: The node's width.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| functionID | The function’s id. |
+| name | The function’s name. |
+| description | A short description of the function. |
+| input | The input parameters. |
+| output | The output parameters. |
+| getOutput | The function for getting the output in a function defined by the developer. |
+| nodes | The nodes in a function defined by the user. |
+| wires | The wires in a function defined by the user. |
+| functions | The functions available for the user for defining the parent function. |
+| outputNodeValues | The manually defined values of the output node. |
+| width | The node’s width. |
 
 ### `==(_:_:)`
 

@@ -46,6 +46,7 @@
 -   [ControlFlow](enums/ControlFlow.md)
 -   [Function.ExecutionError](enums/Function.ExecutionError.md)
 -   [FunctionError](enums/FunctionError.md)
+-   [Wire.CodingKeys](enums/Wire.CodingKeys.md)
 
 ## Extensions
 

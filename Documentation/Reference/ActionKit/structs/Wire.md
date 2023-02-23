@@ -3,7 +3,7 @@
 # `Wire`
 
 ```swift
-public struct Wire: Identifiable, Equatable
+public struct Wire: Identifiable, Equatable, Codable
 ```
 
 A connection between nodes in the ``FunctionEditor``.
@@ -52,6 +52,21 @@ Initialize a new wire.
 | start | The start parameter. |
 | end | The end parameter. |
 
+### `init(from:)`
+
+```swift
+public init(from decoder: Decoder) throws
+```
+
+Initialize a wire from data.
+- Parameter decoder: The decoder.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| decoder | The decoder. |
+
 ### `==(_:_:)`
 
 ```swift
@@ -70,3 +85,18 @@ Checks whether two wires are equal.
 | ---- | ----------- |
 | lhs | The first wire. |
 | rhs | The second wire. |
+
+### `encode(to:)`
+
+```swift
+public func encode(to encoder: Encoder) throws
+```
+
+Encode a wire.
+- Parameter encoder: The encoder.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| encoder | The encoder. |

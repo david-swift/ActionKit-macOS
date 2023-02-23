@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// A type that can be used in the actions.
-public protocol ActionType {
+public protocol ActionType: Codable {
 
     /// The description of the action type that the user can see.
     static var name: String { get }

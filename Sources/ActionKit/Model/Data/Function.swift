@@ -19,9 +19,9 @@ public struct Function: Identifiable, Equatable, Bindable {
     var description: String
 
     /// The input parameters.
-    private var dataInput: [Parameter]
+    private(set) var dataInput: [Parameter]
     /// The output parameters.
-    private var dataOutput: [Parameter]
+    private(set) var dataOutput: [Parameter]
 
     /// The input parameters with the control flow.
     var input: [Parameter] {
@@ -62,17 +62,11 @@ public struct Function: Identifiable, Equatable, Bindable {
     /// The nodes in the function.
     private(set) var nodes: [Node]
     /// The position of the input node in the ``FunctionEditor``.
-    private var inputNodePosition: CGPoint = .init(
-        x: .halfEditorSideLength - .standardNodePositionXOffset,
-        y: .halfEditorSideLength + .standardNodePositionYOffset
-    )
+    private(set) var inputNodePosition: CGPoint
     /// The position of the output node in the ``FunctionEditor``.
-    private var outputNodePosition: CGPoint = .init(
-        x: .halfEditorSideLength + .standardNodePositionXOffset,
-        y: .halfEditorSideLength - .standardNodePositionYOffset
-    )
+    private(set) var outputNodePosition: CGPoint
     /// Values for the output node that are defined manually.
-    private var outputNodeValues: [Int: ActionType] = [0: ControlFlow.signal]
+    private(set) var outputNodeValues: [Int: ActionType]
     /// The connections between the nodes.
     var wires: [Wire]
 
@@ -90,7 +84,7 @@ public struct Function: Identifiable, Equatable, Bindable {
     }
 
     /// The function nodes' witdth in the ``FunctionEditor``.
-    var width: CGFloat = 150
+    var width: CGFloat
 
     /// The input node.
     private var inputNode: Node {
@@ -229,6 +223,7 @@ public struct Function: Identifiable, Equatable, Bindable {
     ///   - getOutput: The function for getting the output in a function defined by the developer.
     ///   - nodes: The nodes in a function defined by the user.
     ///   - wires: The wires in a function defined by the user.
+    ///   - functions: The functions available for the user for defining the parent function.
     public init(
         id: String,
         name: String,
@@ -238,9 +233,56 @@ public struct Function: Identifiable, Equatable, Bindable {
         getOutput: ( ([ActionType]) -> [ActionType])? = nil,
         nodes: [Node] = [],
         wires: [Wire] = [],
-        functions: [Folder<Function>] = .default
+        functions: [Folder<Function>] = .init()
     ) {
-        self.id = id
+        self.init(
+            functionID: id,
+            name: name,
+            description: description,
+            input: input,
+            output: output,
+            getOutput: getOutput,
+            nodes: nodes,
+            wires: wires,
+            functions: functions
+        )
+    }
+
+    /// The function's initializer.
+    /// - Parameters:
+    ///   - functionID: The function's id.
+    ///   - name: The function's name.
+    ///   - description: A short description of the function.
+    ///   - input: The input parameters.
+    ///   - output: The output parameters.
+    ///   - getOutput: The function for getting the output in a function defined by the developer.
+    ///   - nodes: The nodes in a function defined by the user.
+    ///   - wires: The wires in a function defined by the user.
+    ///   - functions: The functions available for the user for defining the parent function.
+    ///   - outputNodeValues: The manually defined values of the output node.
+    ///   - width: The node's width.
+    init(
+        functionID: String,
+        name: String,
+        description: String,
+        input: [Parameter] = [],
+        output: [Parameter] = [],
+        getOutput: ( ([ActionType]) -> [ActionType])? = nil,
+        nodes: [Node] = [],
+        wires: [Wire] = [],
+        functions: [Folder<Function>] = .init(),
+        outputNodeValues: [Int: ActionType] = [0: ControlFlow.signal],
+        width: CGFloat = 150,
+        inputNodePosition: CGPoint = .init(
+            x: .halfEditorSideLength - .standardNodePositionXOffset,
+            y: .halfEditorSideLength + .standardNodePositionYOffset
+        ),
+        outputNodePosition: CGPoint = .init(
+            x: .halfEditorSideLength + .standardNodePositionXOffset,
+            y: .halfEditorSideLength - .standardNodePositionYOffset
+        )
+    ) {
+        self.id = functionID
         self.name = name
         self.description = description
         self.dataInput = input
@@ -250,6 +292,10 @@ public struct Function: Identifiable, Equatable, Bindable {
         self.wires = wires
         self.groupedFunctions = functions
         requireOnlyOneInput = false
+        self.outputNodeValues = outputNodeValues
+        self.width = width
+        self.inputNodePosition = inputNodePosition
+        self.outputNodePosition = outputNodePosition
     }
 
     /// Errors that can occur while executing a function.
