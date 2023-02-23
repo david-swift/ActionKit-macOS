@@ -14,9 +14,9 @@ public struct Function: Identifiable, Equatable, Bindable {
     /// The function's identifier.
     public let id: String
     /// The function's name.
-    var name: String
+    public var name: String
     /// A short description of the function.
-    var description: String
+    public var description: String
 
     /// The input parameters.
     private(set) var dataInput: [Parameter]
@@ -24,7 +24,7 @@ public struct Function: Identifiable, Equatable, Bindable {
     private(set) var dataOutput: [Parameter]
 
     /// The input parameters with the control flow.
-    var input: [Parameter] {
+    public var input: [Parameter] {
         get {
             if id == .input {
                 return []
@@ -37,7 +37,7 @@ public struct Function: Identifiable, Equatable, Bindable {
         }
     }
     /// The output parameters with the control flow.
-    var output: [Parameter] {
+    public var output: [Parameter] {
         get {
             if id == .output {
                 return []
