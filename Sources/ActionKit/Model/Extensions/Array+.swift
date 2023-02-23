@@ -11,7 +11,7 @@ import Foundation
 extension Array where Element == Folder<Function> {
 
     /// A set of functions for ``ControlFlow`` (Control Flow).
-    public static var controlFlowFunctions: Self {
+    public static let controlFlowFunctions: Self =
         [
             .init(
                 .init(
@@ -25,10 +25,9 @@ extension Array where Element == Folder<Function> {
                 for function in controlFlowConversionFunctions { function }
             }
         ]
-    }
 
     /// Convert the control flow into other types.
-    @ArrayBuilder<Function> public static var controlFlowConversionFunctions: [Function] {
+    public static let controlFlowConversionFunctions: [Function] = [
         Function(
             id: .controlFlowToBoolean,
             name: .init(localized: .init(
@@ -44,10 +43,10 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [(input.first as? ControlFlow ?? .noSignal) == .signal]
         }
-    }
+    ]
 
     /// The group of the merge flow functions.
-    public static var mergeFlowGroup: Self {
+    public static let mergeFlowGroup: Self =
         [
             .init(
                 .init(
@@ -61,7 +60,6 @@ extension Array where Element == Folder<Function> {
                 for function in mergeFlowFunctions { function }
             }
         ]
-    }
 
     /// The functions for merging the flow
     /// of ``String`` (Text), ``Double`` (Number), ``Bool`` (Boolean) and ``ControlFlow`` (Control Flow).

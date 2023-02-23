@@ -12,12 +12,12 @@ extension Array where Element == Folder<Function> {
 
     /// A set of functions for the default types ``String`` (Text), ``Double`` (Number), ``Bool`` (Boolean)
     /// and ``ControlFlow`` (Control Flow).
-    public static var `default`: Self {
-        numberFunctions + textFunctions + booleanFunctions + controlFlowFunctions + mergeFlowGroup
-    }
+    public static let `default`
+    =
+    numberFunctions + textFunctions + booleanFunctions + controlFlowFunctions + mergeFlowGroup
 
     /// A set of functions for ``Double`` (Number).
-    public static var numberFunctions: Self {
+    public static let numberFunctions: Self =
         [
             .init(
                 .init(
@@ -53,10 +53,9 @@ extension Array where Element == Folder<Function> {
                 for function in numberConversionFunctions { function }
             }
         ]
-    }
 
     /// Operators for numbers as functions.
-    @ArrayBuilder<Function> public static var numberOperatorsFunctions: [Function] {
+    public static let numberOperatorsFunctions: [Function] = [
         Function(
             id: .addNumbers,
             name: .init(localized: .init("Add Numbers", comment: "Array (Function for adding two numbers)")),
@@ -70,7 +69,7 @@ extension Array where Element == Folder<Function> {
             ]
         ) { input in
             [(input.first as? Double ?? 0) + (input[safe: 1] as? Double ?? 0)]
-        }
+        },
         Function(
             id: .subtractNumbers,
             name: .init(localized: .init("Subtract Numbers", comment: "Array (Function for subtracting two numbers)")),
@@ -90,7 +89,7 @@ extension Array where Element == Folder<Function> {
             ]
         ) { input in
             [(input.first as? Double ?? 0) - (input[safe: 1] as? Double ?? 0)]
-        }
+        },
         Function(
             id: .multiplyNumbers,
             name: .init(localized: .init("Multiply Numbers", comment: "Array (Function for multiplying two numbers)")),
@@ -110,7 +109,7 @@ extension Array where Element == Folder<Function> {
             ]
         ) { input in
             [(input.first as? Double ?? 1) * (input[safe: 1] as? Double ?? 1)]
-        }
+        },
         Function(
             id: .divideNumbers,
             name: .init(localized: .init("Divide Numbers", comment: "Array (Function for dividing two numbers)")),
@@ -133,10 +132,10 @@ extension Array where Element == Folder<Function> {
             number2 = number2 == 0 ? 1 : number2
             return [(input.first as? Double ?? 1) / (number2)]
         }
-    }
+    ]
 
     /// Check relations of numbers as functions.
-    @ArrayBuilder<Function> public static var numberRelationsFunctions: [Function] {
+    public static let numberRelationsFunctions: [Function] = [
         Function(
             id: .equalNumbers,
             name: .init(localized: .init("Equal", comment: "Array (Function for checking if two numbers are equal)")),
@@ -153,7 +152,7 @@ extension Array where Element == Folder<Function> {
             ]
         ) { input in
             [(input.first as? Double ?? 0) == (input[safe: 1] as? Double ?? 0)]
-        }
+        },
         Function(
             id: .greaterThan,
             name: .init(localized: .init(
@@ -169,10 +168,10 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [(input.first as? Double ?? 0) > (input[safe: 1] as? Double ?? 0)]
         }
-    }
+    ]
 
     /// Convert numbers into other types.
-    @ArrayBuilder<Function> public static var numberConversionFunctions: [Function] {
+    public static let numberConversionFunctions: [Function] = [
         Function(
             id: .numberToText,
             name: .init(localized: .init(
@@ -193,10 +192,10 @@ extension Array where Element == Folder<Function> {
             }
             return [String(number)]
         }
-    }
+    ]
 
     /// A set of functions for ``String`` (Text).
-    public static var textFunctions: Self {
+    public static let textFunctions: Self =
         [
             .init(
                 .init(
@@ -232,10 +231,9 @@ extension Array where Element == Folder<Function> {
                 for function in textConversionFunctions { function }
             }
         ]
-    }
 
     /// Operators for text as functions.
-    @ArrayBuilder<Function> public static var textOperatorsFunctions: [Function] {
+    public static let textOperatorsFunctions: [Function] = [
         Function(
             id: .addText,
             name: .init(localized: .init("Add Text", comment: "Array (Function for adding two text snippets)")),
@@ -253,10 +251,10 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [(input.first as? String ?? "") + (input[safe: 1] as? String ?? "")]
         }
-    }
+    ]
 
     /// Check relations of text as functions.
-    @ArrayBuilder<Function> public static var textRelationsFunctions: [Function] {
+    public static let textRelationsFunctions: [Function] = [
         Function(
             id: .equalText,
             name: .init(localized: .init(
@@ -277,10 +275,10 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [(input.first as? String ?? "") == (input[safe: 1] as? String ?? "")]
         }
-    }
+    ]
 
     /// Convert text into other types.
-    @ArrayBuilder<Function> public static var textConversionFunctions: [Function] {
+    public static let textConversionFunctions: [Function] = [
         Function(
             id: .textToNumber,
             name: .init(localized: .init(
@@ -296,10 +294,10 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [Double(input.first as? String ?? "") ?? 0]
         }
-    }
+    ]
 
     /// A set of functions for ``Bool`` (Boolean).
-    public static var booleanFunctions: Self {
+    public static let booleanFunctions: Self =
         [
             .init(
                 .init(
@@ -324,10 +322,9 @@ extension Array where Element == Folder<Function> {
                 for function in booleanConversionFunctions { function }
             }
         ]
-    }
 
     /// Logical operators functions.
-    @ArrayBuilder<Function> public static var logicalOperatorsFunctions: [Function] {
+    public static let logicalOperatorsFunctions: [Function] = [
         Function(
             id: .and,
             name: .init(localized: .init(
@@ -342,7 +339,7 @@ extension Array where Element == Folder<Function> {
             output: [.init(.boolean, type: Bool.self)]
         ) { input in
             [(input.first as? Bool ?? false) && (input[safe: 1] as? Bool ?? false)]
-        }
+        },
         Function(
             id: .orOperator,
             name: .init(localized: .init(
@@ -357,7 +354,7 @@ extension Array where Element == Folder<Function> {
             output: [.init(.boolean, type: Bool.self)]
         ) { input in
             [(input.first as? Bool ?? false) || (input[safe: 1] as? Bool ?? false)]
-        }
+        },
         Function(
             id: .not,
             name: .init(localized: .init(
@@ -373,10 +370,10 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [!(input.first as? Bool ?? true)]
         }
-    }
+    ]
 
     /// Convert booleans into other types.
-    @ArrayBuilder<Function> public static var booleanConversionFunctions: [Function] {
+    public static let booleanConversionFunctions: [Function] = [
         Function(
             id: .booleanToControlFlow,
             name: .init(localized: .init(
@@ -392,6 +389,6 @@ extension Array where Element == Folder<Function> {
         ) { input in
             [(input.first as? Bool ?? false) ? ControlFlow.signal : ControlFlow.noSignal]
         }
-    }
+    ]
 
 }
