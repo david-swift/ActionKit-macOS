@@ -33,6 +33,14 @@ Information about dragging a function into the editor.
 
 The expanded functions editor's width.
 
+### `offset`
+
+```swift
+@State private var offset: CGSize = .zero
+```
+
+A correction of the function editor's offset in the global coordinate space.
+
 ### `functions`
 
 ```swift

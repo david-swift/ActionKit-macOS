@@ -17,6 +17,8 @@ struct FunctionsGroupView: View {
     @State private var isExpanded = true
     /// The group.
     var group: Folder<Function>
+    /// The function editor's offset.
+    var offset: CGSize
 
     /// The view's body.
     var body: some View {
@@ -34,7 +36,7 @@ struct FunctionsGroupView: View {
                         Spacer()
                     }
                 }
-                .functionView(dragFunction: $dragFunction, function: function)
+                .functionView(dragFunction: $dragFunction, function: function, offset: offset)
             }
         } label: {
             Label {
@@ -54,9 +56,17 @@ struct FunctionsGroupView_Previews: PreviewProvider {
 
     /// The previews.
     static var previews: some View {
-        FunctionsGroupView(dragFunction: .constant(nil), group: .init("Hello", icon: .init(systemSymbol: .arrowUp)) {
-            .init(id: "add", name: "Add", description: "Add two numbers.")
-        })
+        FunctionsGroupView(
+            dragFunction: .constant(nil),
+            group:
+                .init(
+                    "Hello",
+                    icon: .init(systemSymbol: .arrowUp)
+                ) {
+                    .init(id: "add", name: "Add", description: "Add two numbers.")
+                },
+            offset: .zero
+        )
     }
 
 }

@@ -33,6 +33,14 @@ var group: Folder<Function>
 
 The group.
 
+### `offset`
+
+```swift
+var offset: CGSize
+```
+
+The function editor's offset.
+
 ### `body`
 
 ```swift

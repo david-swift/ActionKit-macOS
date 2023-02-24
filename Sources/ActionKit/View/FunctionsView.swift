@@ -17,6 +17,8 @@ struct FunctionsView: View {
     @Binding var dragFunction: DragFunction?
     /// The expanded functions editor's width.
     @State private var height: CGFloat = 100
+    /// A correction of the function editor's offset in the global coordinate space.
+    @State private var offset: CGSize = .zero
     /// The functions displayed in the functions view.
     var functions: [Folder<Function>]
     /// Actions added by the developer.
@@ -27,6 +29,8 @@ struct FunctionsView: View {
         Spacer()
             .geometry { geometry in
                 height = geometry.size.height
+                let origin = geometry.frame(in: .global).origin
+                offset = .init(width: origin.x, height: origin.y)
             }
             .overlay(alignment: .bottom) {
                 Group {
@@ -81,7 +85,7 @@ struct FunctionsView: View {
             LazyVStack {
                 ForEach(functions) { group in
                     GroupBox {
-                        FunctionsGroupView(dragFunction: $dragFunction, group: group)
+                        FunctionsGroupView(dragFunction: $dragFunction, group: group, offset: offset)
                     }
                 }
                 .padding(.horizontal)
@@ -101,7 +105,7 @@ struct FunctionsView: View {
                             Text(function.name)
                                 .padding(.compactViewInnerPadding)
                         }
-                        .functionView(dragFunction: $dragFunction, function: function)
+                        .functionView(dragFunction: $dragFunction, function: function, offset: offset)
                     }
                     if let last = functions.last, group.id != last.id {
                         Divider()

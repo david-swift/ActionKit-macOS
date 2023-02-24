@@ -33,6 +33,14 @@ var function: Function
 
 The function.
 
+### `offset`
+
+```swift
+var offset: CGSize
+```
+
+The dragging function's offset.
+
 ## Methods
 ### `body(content:)`
 

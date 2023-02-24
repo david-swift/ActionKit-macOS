@@ -16,6 +16,8 @@ struct FunctionView: ViewModifier {
     @State private var position: CGSize = .zero
     /// The function.
     var function: Function
+    /// The dragging function's offset.
+    var offset: CGSize
 
     /// The modifier's body.
     /// - Parameter content: The content.
@@ -34,7 +36,7 @@ struct FunctionView: ViewModifier {
                     }
             )
             .geometry { geometry in
-                let rect = geometry.frame(in: .global)
+                let rect = geometry.frame(in: .global).offsetBy(dx: -offset.width, dy: -offset.height)
                 position = .init(width: rect.origin.x, height: rect.origin.y)
             }
     }

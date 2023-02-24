@@ -18,33 +18,36 @@ struct ContentView: View {
 
     /// The view's body.
     var body: some View {
-        FunctionEditor(
-            $model.function.function,
-            zoom: 1
-        ) { _ in
+        HSplitView {
+            Color.clear
+            FunctionEditor(
+                $model.function.function,
+                zoom: 1
+            ) { _ in
 
-        } extraActions: {
-            TaggedView(tag: "run") {
-                Button {
-                    do {
-                        let output = try model.function.function.run(input: ["Hello", 5, Bool.random()])
-                        for outputItem in output {
-                            print(outputItem)
-                        }
-                        print("\n")
-                    } catch {
-                        if let error = error as? Function.ExecutionError {
-                            switch error {
-                            case .emptyIteration:
-                                model.error = "Empty Iteration"
+            } extraActions: {
+                TaggedView(tag: "run") {
+                    Button {
+                        do {
+                            let output = try model.function.function.run(input: ["Hello", 5, Bool.random()])
+                            for outputItem in output {
+                                print(outputItem)
+                            }
+                            print("\n")
+                        } catch {
+                            if let error = error as? Function.ExecutionError {
+                                switch error {
+                                case .emptyIteration:
+                                    model.error = "Empty Iteration"
+                                }
                             }
                         }
+                    } label: {
+                        Label("Run" as String, systemSymbol: .playFill)
                     }
-                } label: {
-                    Label("Run" as String, systemSymbol: .playFill)
                 }
             }
+            .throwError(error: $model.error)
         }
-        .throwError(error: $model.error)
     }
 }

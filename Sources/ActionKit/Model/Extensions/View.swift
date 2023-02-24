@@ -26,9 +26,10 @@ extension View {
     /// - Parameters:
     ///   - dragFunction: Information about dragging a function.
     ///   - function: The function.
+    ///   - offset: The function editor's offset in the global coordinate space.
     /// - Returns: The view with the draggable function view on top.
-    func functionView(dragFunction: Binding<DragFunction?>, function: Function) -> some View {
-        modifier(FunctionView(dragFunction: dragFunction, function: function))
+    func functionView(dragFunction: Binding<DragFunction?>, function: Function, offset: CGSize) -> some View {
+        modifier(FunctionView(dragFunction: dragFunction, function: function, offset: offset))
     }
 
 }
