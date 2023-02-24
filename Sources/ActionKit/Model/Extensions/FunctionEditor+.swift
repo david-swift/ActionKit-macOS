@@ -172,31 +172,46 @@ extension FunctionEditor {
         }
     }
 
+    /// The view layer for showing the wire that is being dragged.
+    /// - Parameter context: The graphics context.
+    func dragWire(context: GraphicsContext) {
+        if let dragWire = model.dragWire {
+            let node = function.allNodes[safe: dragWire.parameter.0]
+            let function = function.editableAllFunctions[id: node?.function]
+            let color = function?.output[safe: dragWire.parameter.1]?.type.color ?? .clear
+            let startPosition = Self.outputPosition(
+                nodePosition: node?.position,
+                function: function,
+                index: dragWire.parameter.1
+            )
+            context.addCurve(startPosition: startPosition, endPosition: dragWire.position, color: color)
+        }
+    }
+
     /// The view layer for a single wire.
-    /// - Parameter wire: The wire that should be dislayed.
+    /// - Parameters:
+    ///   - wire: The wire that should be displayed.
+    ///   - context: The graphics context.
     /// - Returns: A view containing the wire.
-    @ViewBuilder func wireView(_ wire: Wire) -> some View {
+    func wireView(_ wire: Wire, context: GraphicsContext) {
         let point = wire.start
         let node = function.allNodes[safe: point.0]
         let color = function.editableAllFunctions[id: node?.function]?.output[safe: point.1]?.type.color ?? .clear
-        Path { path in
-            let startNode = function.allNodes[safe: wire.start.0]
-            let endNode = function.allNodes[safe: wire.end.0]
-            let startFunction = function.editableAllFunctions[id: startNode?.function]
-            let endFunction = function.editableAllFunctions[id: endNode?.function]
-            let startPosition = Self.outputPosition(
-                nodePosition: startNode?.position,
-                function: startFunction,
-                index: wire.start.1
-            )
-            let endPosition = Self.inputPosition(
-                nodePosition: endNode?.position,
-                function: endFunction,
-                index: wire.end.1
-            )
-            path.addCurve(startPosition: startPosition, endPosition: endPosition)
-        }
-        .stroke(color.gradient, style: .init(lineWidth: .wireWidth))
+        let startNode = function.allNodes[safe: wire.start.0]
+        let endNode = function.allNodes[safe: wire.end.0]
+        let startFunction = function.editableAllFunctions[id: startNode?.function]
+        let endFunction = function.editableAllFunctions[id: endNode?.function]
+        let startPosition = Self.outputPosition(
+            nodePosition: startNode?.position,
+            function: startFunction,
+            index: wire.start.1
+        )
+        let endPosition = Self.inputPosition(
+            nodePosition: endNode?.position,
+            function: endFunction,
+            index: wire.end.1
+        )
+        context.addCurve(startPosition: startPosition, endPosition: endPosition, color: color)
     }
 
     /// Get the selected nodes.

@@ -91,14 +91,6 @@ var wires: some View
 
 The layer containing the wires.
 
-### `dragWire`
-
-```swift
-@ViewBuilder var dragWire: some View
-```
-
-The view layer for showing the wire that is being dragged.
-
 ### `errors`
 
 ```swift

@@ -60,6 +60,7 @@ struct DragFunctionView_Previews: PreviewProvider {
             scrollValue: .zero
         )
         .frame(width: sideLength, height: sideLength)
+        .fixedSize()
     }
 
 }

@@ -181,21 +181,39 @@ Set the position of the dragged node if it is not part of the selection.
 | point | The new location. |
 | node | The dragged node. |
 
-### `wireView(_:)`
+### `dragWire(context:)`
 
 ```swift
-@ViewBuilder func wireView(_ wire: Wire) -> some View
+func dragWire(context: GraphicsContext)
+```
+
+The view layer for showing the wire that is being dragged.
+- Parameter context: The graphics context.
+
+#### Parameters
+
+| Name | Description |
+| ---- | ----------- |
+| context | The graphics context. |
+
+### `wireView(_:context:)`
+
+```swift
+func wireView(_ wire: Wire, context: GraphicsContext)
 ```
 
 The view layer for a single wire.
-- Parameter wire: The wire that should be dislayed.
+- Parameters:
+  - wire: The wire that should be displayed.
+  - context: The graphics context.
 - Returns: A view containing the wire.
 
 #### Parameters
 
 | Name | Description |
 | ---- | ----------- |
-| wire | The wire that should be dislayed. |
+| wire | The wire that should be displayed. |
+| context | The graphics context. |
 
 ### `observeSelection(value:)`
 

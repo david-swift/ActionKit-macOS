@@ -20,7 +20,7 @@ The function's identifier.
 ### `name`
 
 ```swift
-var name: String
+public var name: String
 ```
 
 The function's name.
@@ -28,7 +28,7 @@ The function's name.
 ### `description`
 
 ```swift
-var description: String
+public var description: String
 ```
 
 A short description of the function.
@@ -52,7 +52,7 @@ The output parameters.
 ### `input`
 
 ```swift
-var input: [Parameter]
+public var input: [Parameter]
 ```
 
 The input parameters with the control flow.
@@ -60,7 +60,7 @@ The input parameters with the control flow.
 ### `output`
 
 ```swift
-var output: [Parameter]
+public var output: [Parameter]
 ```
 
 The output parameters with the control flow.

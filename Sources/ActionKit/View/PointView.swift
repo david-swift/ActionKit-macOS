@@ -38,6 +38,7 @@ struct PointView: View {
             .background {
                 Circle()
                     .frame(width: .hoverIndicatorSideLength, height: .hoverIndicatorSideLength)
+                    .fixedSize()
                     .foregroundColor(.secondary.opacity(hover ? .hoverIndicatorOpacity : 0))
             }
             .onHover { hover = $0 }

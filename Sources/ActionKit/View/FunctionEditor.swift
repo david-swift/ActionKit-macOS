@@ -39,6 +39,7 @@ public struct FunctionEditor: View {
             CanvasEditor(selection: $model.selection, sideLength: .editorSideLength, zoom: model.zoom) { rect in
                 nodesView(selectionRectangle: rect)
                 wires
+                    .allowsHitTesting(false)
             }
             .observeScroll(value: $model.scrollValue)
         }
@@ -91,32 +92,14 @@ public struct FunctionEditor: View {
 
     /// The layer containing the wires.
     var wires: some View {
-       ZStack {
-           ForEach(function.wires) { wire in
-               wireView(wire)
+        Canvas(opaque: false) { context, _ in
+            for wire in function.wires {
+                wireView(wire, context: context)
            }
-           dragWire
-       }
+            dragWire(context: context)
+        }
        .frame(width: .editorSideLength, height: .editorSideLength)
        .offset(x: -.editorPadding, y: -.editorPadding)
-    }
-
-    /// The view layer for showing the wire that is being dragged.
-    @ViewBuilder var dragWire: some View {
-        if let dragWire = model.dragWire {
-            let node = function.allNodes[safe: dragWire.parameter.0]
-            let function = function.editableAllFunctions[id: node?.function]
-            let color = function?.output[safe: dragWire.parameter.1]?.type.color ?? .clear
-            Path { path in
-                let startPosition = Self.outputPosition(
-                    nodePosition: node?.position,
-                    function: function,
-                    index: dragWire.parameter.1
-                )
-                path.addCurve(startPosition: startPosition, endPosition: dragWire.position)
-            }
-            .stroke(color.gradient, style: .init(lineWidth: .wireWidth))
-        }
     }
 
     /// The view layer for showing the errors.

@@ -55,6 +55,7 @@ public struct CanvasEditor<Item>: View where Item: View {
             drawBackground(context: context)
         }
         .frame(width: sideLength, height: sideLength)
+        .fixedSize()
         .padding(.editorPadding)
         .onTapGesture {
             selection = []

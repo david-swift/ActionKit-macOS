@@ -112,6 +112,7 @@ struct FunctionsView: View {
             .padding(.compactViewPadding)
         }
         .frame(height: .compactViewHeight)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
 }
