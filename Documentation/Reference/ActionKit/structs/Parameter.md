@@ -20,7 +20,7 @@ The identifier.
 ### `name`
 
 ```swift
-var name: String
+public var name: String
 ```
 
 The parameter's name that the user can see.
@@ -28,7 +28,7 @@ The parameter's name that the user can see.
 ### `type`
 
 ```swift
-var type: ActionType.Type
+public var type: ActionType.Type
 ```
 
 The parameter's type.

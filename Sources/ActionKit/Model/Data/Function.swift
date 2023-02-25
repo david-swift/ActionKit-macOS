@@ -19,9 +19,9 @@ public struct Function: Identifiable, Equatable, Bindable {
     public var description: String
 
     /// The input parameters.
-    private(set) var dataInput: [Parameter]
+    public private(set) var dataInput: [Parameter]
     /// The output parameters.
-    private(set) var dataOutput: [Parameter]
+    public private(set) var dataOutput: [Parameter]
 
     /// The input parameters with the control flow.
     public var input: [Parameter] {

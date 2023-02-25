@@ -13,9 +13,9 @@ public struct Parameter: Identifiable {
     /// The identifier.
     public let id: UUID
     /// The parameter's name that the user can see.
-    var name: String
+    public var name: String
     /// The parameter's type.
-    var type: ActionType.Type
+    public var type: ActionType.Type
 
     /// A parameter's initializer.
     /// - Parameters:

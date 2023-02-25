@@ -36,7 +36,7 @@ A short description of the function.
 ### `dataInput`
 
 ```swift
-private(set) var dataInput: [Parameter]
+public private(set) var dataInput: [Parameter]
 ```
 
 The input parameters.
@@ -44,7 +44,7 @@ The input parameters.
 ### `dataOutput`
 
 ```swift
-private(set) var dataOutput: [Parameter]
+public private(set) var dataOutput: [Parameter]
 ```
 
 The output parameters.

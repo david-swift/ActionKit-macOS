@@ -29,7 +29,9 @@ class ViewModel: ObservableObject {
         function = .init(
             id: "hi",
             name: "Hi",
-            description: "A test function"
+            description: "A test function",
+            input: [.init("Hello", type: String.self)],
+            output: [.init("World", type: String.self)]
         )
         let data = UserDefaults.standard.value(forKey: "function") as? Data
         guard let data else {
@@ -45,16 +47,13 @@ class ViewModel: ObservableObject {
     /// An example codable function information.
     struct Information: CodableFunctionInformation {
 
-        /// The function's input.
-        static var input: [Parameter] {
-            Parameter("String", type: String.self)
-            Parameter("Double", type: Double.self)
-            Parameter("Boolean", type: Bool.self)
+        /// The function's types.
+        static var types: [ActionType.Type] {
+            String.self
+            Double.self
+            Bool.self
         }
-        /// The function's output.
-        static var output: [Parameter] {
-            Parameter("Output", type: String.self)
-        }
+
         /// The available functions.
         static var functions: [Folder<Function>] {
             for group in [Folder<Function>].default { group }

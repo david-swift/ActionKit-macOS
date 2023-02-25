@@ -10,8 +10,11 @@ import Foundation
 /// A wrapper around a function that make the function codable.
 /// You can encode and decode the data that the user can edit.
 /// The other data is stored in the static variables of the type conforming to ``CodableFunctionInformation``.
-public struct CodableFunction<Information>: Codable where Information: CodableFunctionInformation {
+public struct CodableFunction<Information>: Identifiable, Codable, Equatable
+where Information: CodableFunctionInformation {
 
+    /// The identifier.
+    public var id: String { function.id }
     /// The function.
     public var function: Function
 
@@ -20,12 +23,16 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
     ///   - id: The function's identifier.
     ///   - name: The function's name.
     ///   - description: A description.
+    ///   - input: The function's input parameters.
+    ///   - output: The function's output parameters.
     ///   - nodes: The nodes in the function. The user can always add new nodes.
     ///   - wires: The wires in the function. The user can always add new wires.
     public init(
         id: String,
         name: String,
         description: String,
+        input: [Parameter],
+        output: [Parameter],
         nodes: [Node] = [],
         wires: [Wire] = []
     ) {
@@ -33,8 +40,8 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
             id: id,
             name: name,
             description: description,
-            input: Information.input,
-            output: Information.output,
+            input: input,
+            output: output,
             nodes: nodes,
             wires: wires,
             functions: Information.functions
@@ -48,23 +55,26 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
         let id = try decoder.decode(String.self, forKey: .id)
         let name = try decoder.decode(String.self, forKey: .name)
         let description = try decoder.decode(String.self, forKey: .description)
+        let inputIDs = try decoder.decode([UUID].self, forKey: .inputIDs)
+        let inputParameters = try decoder.decode([String].self, forKey: .inputParameters)
+        let inputTypes = try decoder.decode([String].self, forKey: .inputTypes)
+        let input = Self.getParameters(ids: inputIDs, names: inputParameters, types: inputTypes)
+        let outputIDs = try decoder.decode([UUID].self, forKey: .outputIDs)
+        let outputParameters = try decoder.decode([String].self, forKey: .outputParameters)
+        let outputTypes = try decoder.decode([String].self, forKey: .outputTypes)
+        let output = Self.getParameters(ids: outputIDs, names: outputParameters, types: outputTypes)
         let nodeIDs = try decoder.decode([UUID].self, forKey: .nodeIDs)
         let nodePositions = try decoder.decode([CGPoint].self, forKey: .nodePositions)
         let nodeFunctions = try decoder.decode([String].self, forKey: .nodeFunctions)
         let nodeValueKeys = try decoder.decode([[Int]].self, forKey: .nodeValueKeys)
         let nodeValueValues = try decoder.decode([[Information]].self, forKey: .nodeValueValues)
-        let nodes = nodeIDs.indices.map { index in
-            let nodeValueKeys = nodeValueKeys[safe: index] ?? []
-            let nodeValueValues = nodeValueValues[safe: index] ?? []
-            return Node(
-                function: nodeFunctions[safe: index] ?? .init(),
-                id: nodeIDs[safe: index] ?? .init(),
-                position: nodePositions[safe: index] ?? .zero,
-                values: nodeValueKeys.indices.reduce(into: [Int: ActionType]()) { partialResult, index in
-                    partialResult[nodeValueKeys[safe: index] ?? 0] = nodeValueValues[safe: index]?.type
-                }
-            )
-        }
+        let nodes = Self.getNodes(
+            ids: nodeIDs,
+            valueKeys: nodeValueKeys,
+            valueInformation: nodeValueValues,
+            functions: nodeFunctions,
+            positions: nodePositions
+        )
         let outputNodeValueKeys = try decoder.decode([Int].self, forKey: .outputNodeValueKeys)
         let outputNodeValueValues = try decoder.decode([Information].self, forKey: .outputNodeValueValues)
         let outputNodeValues = outputNodeValueKeys.reduce(into: [Int: ActionType]()) { partialResult, newValue in
@@ -78,8 +88,8 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
             functionID: id,
             name: name,
             description: description,
-            input: Information.input,
-            output: Information.output,
+            input: input,
+            output: output,
             nodes: nodes,
             wires: wires,
             functions: Information.functions,
@@ -98,6 +108,18 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
         case name
         /// The coding key for the function's description.
         case description
+        /// The coding key for the function's input parameters' identifiers.
+        case inputIDs
+        /// The coding key for the function's input parameters' names.
+        case inputParameters
+        /// The coding key for the function's input parameters' types.
+        case inputTypes
+        /// The coding key for the function's output parameters' identifiers.
+        case outputIDs
+        /// The coding key for the function's output parameters' names.
+        case outputParameters
+        /// The coding key for the function's output parameters' types.
+        case outputTypes
         /// The coding key for the identifiers of all of the nodes.
         case nodeIDs
         /// The coding key for the position of all of the nodes.
@@ -122,6 +144,51 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
         case outputNodePosition
     }
 
+    /// Get the parameters from decoded data.
+    /// - Parameters:
+    ///   - ids: The identifiers.
+    ///   - names: The parameter names.
+    ///   - types: The parameter types.
+    /// - Returns: The parameters.
+    private static func getParameters(ids: [UUID], names: [String], types: [String]) -> [Parameter] {
+        ids.indices.map { index in
+            Parameter(
+                names[safe: index] ?? .init(),
+                type: Information.types.first { $0.name == types[safe: index] } ?? ControlFlow.self,
+                id: ids[safe: index] ?? .init()
+            )
+        }
+    }
+
+    /// Get the nodes from decoded data.
+    /// - Parameters:
+    ///   - ids: The identifiers.
+    ///   - valueKeys: The manually defined values' positions.
+    ///   - valueInformation: The manually defined value's value.
+    ///   - functions: The nodes' functions' identifiers.
+    ///   - positions: The nodes' positions.
+    /// - Returns: The nodes.
+    private static func getNodes(
+        ids: [UUID],
+        valueKeys: [[Int]],
+        valueInformation: [[Information]],
+        functions: [String],
+        positions: [CGPoint]
+    ) -> [Node] {
+        ids.indices.map { index in
+            let nodeValueKeys = valueKeys[safe: index] ?? []
+            let nodeValueValues = valueInformation[safe: index] ?? []
+            return Node(
+                function: functions[safe: index] ?? .init(),
+                id: ids[safe: index] ?? .init(),
+                position: positions[safe: index] ?? .zero,
+                values: nodeValueKeys.indices.reduce(into: [Int: ActionType]()) { partialResult, index in
+                    partialResult[nodeValueKeys[safe: index] ?? 0] = nodeValueValues[safe: index]?.type
+                }
+            )
+        }
+    }
+
     /// Encode a codable function.
     /// - Parameter encoder: The encoder.
     public func encode(to encoder: Encoder) throws {
@@ -129,6 +196,12 @@ public struct CodableFunction<Information>: Codable where Information: CodableFu
         try encoder.encode(function.id, forKey: .id)
         try encoder.encode(function.name, forKey: .name)
         try encoder.encode(function.description, forKey: .description)
+        try encoder.encode(function.dataInput.map { $0.id }, forKey: .inputIDs)
+        try encoder.encode(function.dataInput.map { $0.name }, forKey: .inputParameters)
+        try encoder.encode(function.dataInput.map { $0.type.name }, forKey: .inputTypes)
+        try encoder.encode(function.dataOutput.map { $0.id }, forKey: .outputIDs)
+        try encoder.encode(function.dataOutput.map { $0.name }, forKey: .outputParameters)
+        try encoder.encode(function.dataOutput.map { $0.type.name }, forKey: .outputTypes)
         try encoder.encode(function.nodes.map { $0.id }, forKey: .nodeIDs)
         try encoder.encode(function.nodes.map { $0.position }, forKey: .nodePositions)
         try encoder.encode(function.nodes.map { $0.function }, forKey: .nodeFunctions)
