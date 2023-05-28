@@ -57,6 +57,9 @@ extension Function {
                         var output = try functions[id: node.function]?.function(
                             input: inputValues.map { $0.value }
                         ) ?? []
+                        if output.first as? ControlFlow != .signal {
+                            output.insert(ControlFlow.signal, at: 0)
+                        }
                         for (outputIndex, value) in output.enumerated() {
                             data.append(.init(position: .output(node: index, point: outputIndex), value: value))
                         }

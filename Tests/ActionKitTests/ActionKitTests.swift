@@ -40,12 +40,10 @@ final class ActionKitTests: XCTestCase {
 
     /// Test the execution of functions.
     func testExecution() throws {
-        separator()
-        print("Function \"Print Text\"")
+        separator(function: "Print Text")
         _ = try printText.run(input: ["Hello, world!"])
 
-        separator()
-        print("Function \"Text\"")
+        separator(function: "Text")
         let simpleCustomFunction = Function(
             id: "text",
             name: "Text",
@@ -62,8 +60,7 @@ final class ActionKitTests: XCTestCase {
         )
         XCTAssertEqual(try simpleCustomFunction.run(input: ["Hello"]) as? [String] ?? [], ["Hello", "Hello"])
 
-        separator()
-        print("Function \"Add\"")
+        separator(function: "Add")
         let addCustomFunction = Function(
             id: "custom-add",
             name: "Add",
@@ -79,11 +76,29 @@ final class ActionKitTests: XCTestCase {
             functions: [.init("", icon: .init("")) { add }]
         )
         XCTAssertEqual(try addCustomFunction.run(input: [1.0, 2.0]) as? [Double] ?? [], [3.0])
+
+        separator(function: "Custom in Custom")
+        let customInCustomFunction = Function(
+            id: "custom-in-custom",
+            name: "Custom in Custom",
+            description: "Custom in Custom",
+            input: [.init("Number 1", type: Double.self), .init("Number 2", type: Double.self)],
+            output: [.init("Number", type: Double.self)],
+            nodes: [.init(function: "custom-add")],
+            wires: [
+                .init(from: (0, 1), to: (1, 1)),
+                .init(from: (0, 2), to: (1, 2)),
+                .init(from: (1, 1), to: (2, 1))
+            ],
+            functions: [.init("", icon: .init("")) { addCustomFunction }]
+        )
+        XCTAssertEqual(try customInCustomFunction.run(input: [1.0, 2.0]) as? [Double] ?? [], [3.0])
     }
 
     /// Print a separator.
-    func separator() {
+    func separator(function: String) {
         print("-------------------------")
+        print("Function \"\(function)\"")
     }
 
 }
