@@ -16,3 +16,5 @@ extension Int {
     static var backgroundDotSideLength: Self { 2 }
 
 }
+
+//  swiftlint:enable no_magic_numbers

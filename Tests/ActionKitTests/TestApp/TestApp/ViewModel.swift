@@ -15,6 +15,7 @@ class ViewModel: ObservableObject {
     /// The example codable function.
     @Published var function: CodableFunction<Information> {
         didSet {
+            UndoProvider.registerUndo(withTarget: self) { $0.function = oldValue }
             let data = try? JSONEncoder().encode(function)
             if let data {
                 UserDefaults.standard.set(data, forKey: "function")

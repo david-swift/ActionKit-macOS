@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/david-swift/ColibriComponents-macOS",
       "state" : {
-        "revision" : "1d38bac19399970b275856e4e09b5343e13b49c5",
-        "version" : "0.1.1"
+        "revision" : "31a3fb89a104b4608d3e369ad25fdaef7b61aa5d",
+        "version" : "0.1.5"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lukepistrol/SwiftLintPlugin",
       "state" : {
-        "revision" : "f69b412a765396d44dc9f4788a5b79919c1ca9e3",
-        "version" : "0.2.2"
+        "revision" : "f3586ed424d7bf5d94628332fbd0edebf1f5147f",
+        "version" : "0.2.3"
       }
     }
   ],

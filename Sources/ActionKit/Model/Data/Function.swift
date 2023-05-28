@@ -79,7 +79,7 @@ public struct Function: Identifiable, Equatable, Bindable {
     var groupedFunctions: [Folder<Function>]
 
     /// The functions that the nodes can access.
-    var functions: [Function] {
+    var functions: [Self] {
         groupedFunctions.flatMap { $0.content }
     }
 
@@ -156,7 +156,7 @@ public struct Function: Identifiable, Equatable, Bindable {
 
     /// ``allFunctions(input:output:)`` without the input and output specified with a setter.
     /// It is ideal for editing and viewing the functions, but not for executing the whole function.
-    var editableAllFunctions: [Function] {
+    var editableAllFunctions: [Self] {
         get {
             allFunctions(input: []) { _ in }
         }
@@ -233,7 +233,7 @@ public struct Function: Identifiable, Equatable, Bindable {
         getOutput: ( ([ActionType]) -> [ActionType])? = nil,
         nodes: [Node] = [],
         wires: [Wire] = [],
-        functions: [Folder<Function>] = .init()
+        functions: [Folder<Self>] = .init()
     ) {
         self.init(
             functionID: id,
@@ -270,7 +270,7 @@ public struct Function: Identifiable, Equatable, Bindable {
         getOutput: ( ([ActionType]) -> [ActionType])? = nil,
         nodes: [Node] = [],
         wires: [Wire] = [],
-        functions: [Folder<Function>] = .init(),
+        functions: [Folder<Self>] = .init(),
         outputNodeValues: [Int: ActionType] = [0: ControlFlow.signal],
         width: CGFloat = 150,
         inputNodePosition: CGPoint = .init(
@@ -311,7 +311,7 @@ public struct Function: Identifiable, Equatable, Bindable {
     ///   - lhs: The first function.
     ///   - rhs: The second function.
     /// - Returns: Whether the two functions are equal.
-    public static func == (lhs: Function, rhs: Function) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.wires == rhs.wires && lhs.allNodes == rhs.allNodes
     }
 
@@ -320,14 +320,14 @@ public struct Function: Identifiable, Equatable, Bindable {
     ///   - input: The output of the input node.
     ///   - output: Get the input of the output node.
     /// - Returns: The functions.
-    func allFunctions(input: [ActionType], output: @escaping ([ActionType]) -> Void) -> [Function] {
+    func allFunctions(input: [ActionType], output: @escaping ([ActionType]) -> Void) -> [Self] {
         [inputFunction(input: input)] + functions + [outputFunction(output: output)]
     }
 
     /// The function for the input node.
     /// - Parameter input: The input node's output values.
     /// - Returns: The function.
-    private func inputFunction(input: [ActionType]) -> Function {
+    private func inputFunction(input: [ActionType]) -> Self {
         .init(
             id: .input,
             name: .init(localized: .init("Input", comment: "Function (Node \"Input\")") ),
@@ -344,7 +344,7 @@ public struct Function: Identifiable, Equatable, Bindable {
     /// The function for the output node.
     /// - Parameter output: The function for handling the output node's input values.
     /// - Returns: The function.
-    private func outputFunction(output: @escaping ([ActionType]) -> Void) -> Function {
+    private func outputFunction(output: @escaping ([ActionType]) -> Void) -> Self {
         .init(
             id: .output,
             name: .init(localized: .init("Output", comment: "Function (Node \"Output\")") ),

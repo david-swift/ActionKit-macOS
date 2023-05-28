@@ -78,7 +78,8 @@ struct InputParametersView: View {
     /// and to manually define the value.
     /// - Parameter value: The parameter.
     /// - Returns: A view for editing the value.
-    @ViewBuilder private func valueColumn(value: Parameter) -> some View {
+    @ViewBuilder
+    private func valueColumn(value: Parameter) -> some View {
         VStack(alignment: .leading) {
             Toggle("Set Manually", isOn: .init {
                 setManually(index: index(parameter: value))

@@ -54,3 +54,5 @@ extension Double: ActionType {
     }
 
 }
+
+//  swiftlint:enable no_magic_numbers

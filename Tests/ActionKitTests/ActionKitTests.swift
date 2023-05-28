@@ -4,7 +4,6 @@
 //
 //  Created by david-swift on 19.01.23.
 //
-//  swiftlint:disable no_magic_numbers
 
 @testable import ActionKit
 import XCTest
@@ -28,19 +27,21 @@ final class ActionKitTests: XCTestCase {
         wires: []
     )
 
+    /// A test function for printing text.
+    let printText = Function(
+        id: "print",
+        name: "Print Text",
+        description: "Print Text",
+        input: [.init("Text", type: String.self)]
+    ) { input in
+        print(input.first as? String ?? "No text")
+        return []
+    }
+
     /// Test the execution of functions.
     func testExecution() throws {
         separator()
         print("Function \"Print Text\"")
-        let printText = Function(
-            id: "print",
-            name: "Print Text",
-            description: "Print Text",
-            input: [.init("Text", type: String.self)]
-        ) { input in
-            print(input.first as? String ?? "No text")
-            return []
-        }
         _ = try printText.run(input: ["Hello, world!"])
 
         separator()
@@ -51,7 +52,6 @@ final class ActionKitTests: XCTestCase {
             description: "Text",
             input: [.init("Text", type: String.self)],
             output: [.init("Text", type: String.self), .init("Text 2", type: String.self)],
-            getOutput: nil,
             nodes: [.init(function: "add"), .init(function: "print", values: [1: "Cool"])],
             wires: [
                 .init(from: (0, 1), to: (3, 1)),
@@ -60,17 +60,16 @@ final class ActionKitTests: XCTestCase {
             ],
             functions: [.init("", icon: .init("")) { add; printText }]
         )
-        XCTAssertEqual(try simpleCustomFunction.run(input: ["Hello"]) { step in
-            print("scf: \(step)")
-        } as? [String] ?? [], ["Hello", "Hello"])
+        XCTAssertEqual(try simpleCustomFunction.run(input: ["Hello"]) as? [String] ?? [], ["Hello", "Hello"])
 
+        separator()
+        print("Function \"Add\"")
         let addCustomFunction = Function(
             id: "custom-add",
             name: "Add",
             description: "Add",
             input: [.init("Number 1", type: Double.self), .init("Number 2", type: Double.self)],
             output: [.init("Number", type: Double.self)],
-            getOutput: nil,
             nodes: [.init(function: "add")],
             wires: [
                 .init(from: (0, 1), to: (1, 1)),

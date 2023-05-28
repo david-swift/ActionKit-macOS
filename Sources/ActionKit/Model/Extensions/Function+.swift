@@ -54,7 +54,7 @@ extension Function {
                     nothingChanged = false
                     startedStep(index)
                     do {
-                        let output = try functions[id: node.function]?.function(
+                        var output = try functions[id: node.function]?.function(
                             input: inputValues.map { $0.value }
                         ) ?? []
                         for (outputIndex, value) in output.enumerated() {

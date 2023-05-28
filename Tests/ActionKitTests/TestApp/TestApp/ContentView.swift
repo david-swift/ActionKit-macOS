@@ -18,20 +18,19 @@ struct ContentView: View {
 
     /// The view's body.
     var body: some View {
-        UndoProvider($model.function) { $function in
-            HSplitView {
-                Form {
-                    parameterEditor(function: $function)
-                }
-                editor(function: $function)
+        HSplitView {
+            Form {
+                parameterEditor(function: $model.function)
             }
+            editor(function: $model.function)
         }
     }
 
     /// An editor for the input and output parameters.
     /// - Parameter function: The function.
     /// - Returns: A view containing the editor.
-    @ViewBuilder private func parameterEditor(function: Binding<CodableFunction<ViewModel.Information>>) -> some View {
+    @ViewBuilder
+    private func parameterEditor(function: Binding<CodableFunction<ViewModel.Information>>) -> some View {
         List(function.wrappedValue.function.dataInput) { input in
             Text("\(input.name) (\(input.type.name))")
                 .contextMenu {
@@ -126,3 +125,5 @@ struct ContentView: View {
         .throwError(error: $model.error)
     }
 }
+
+//  swiftlint:enable no_magic_numbers

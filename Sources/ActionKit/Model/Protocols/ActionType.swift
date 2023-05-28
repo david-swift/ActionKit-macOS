@@ -20,7 +20,8 @@ public protocol ActionType: Codable {
     /// This view should look well even in a small frame.
     /// - Parameter value: The picked value.
     /// - Returns: The picker view.
-    @ViewBuilder static func picker(value: Binding<ActionType>) -> any View
+    @ViewBuilder
+    static func picker(value: Binding<ActionType>) -> any View
 
 }
 
