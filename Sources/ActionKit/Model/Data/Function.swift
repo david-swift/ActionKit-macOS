@@ -9,7 +9,7 @@ import ColibriComponents
 import SwiftUI
 
 /// A function that can be edited in the ``FunctionEditor`` or executed.
-public struct Function: Identifiable, Equatable, Bindable {
+public struct Function: Identifiable, Equatable, ColibriComponents.Bindable {
 
     /// The function's identifier.
     public let id: String
