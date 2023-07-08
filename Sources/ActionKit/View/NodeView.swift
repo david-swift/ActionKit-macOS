@@ -44,7 +44,7 @@ struct NodeView: View {
             }
             .contextMenu {
                 ForEach(tools, id: \.title.key) { item in
-                    Button(item.title) {
+                    Button(item.title.localized) {
                         selected = true
                         item.action()
                     }

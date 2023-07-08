@@ -76,7 +76,7 @@ public struct Function: Identifiable, Equatable, ColibriComponents.Bindable {
     var requireOnlyOneInput: Bool
 
     /// The functions that the nodes can access ordered in groups.
-    var groupedFunctions: [Folder<Function>]
+    var groupedFunctions: [Folder<Self>]
 
     /// The functions that the nodes can access.
     var functions: [Self] {
