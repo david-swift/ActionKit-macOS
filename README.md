@@ -19,17 +19,9 @@ _ActionKit_ contains an editor for visual scripting. The developer can provide f
 
 ## Table of Contents
 
-- [Elements][1]
-- [Installation][2]
-- [Usage][3]
-- [Thanks][4]
-
-## Elements
-
-| Name            | Description                                                                                               |
-| --------------- | --------------------------------------------------------------------------------------------------------- |
-| Function Editor | Provide functions and input and output parameters that the user can use for creating scripts using nodes. |
-| Canvas Editor   | A 2D scroll view with a background, a rectangle for selecting items and items to display.                 |
+- [Installation][1]
+- [Usage][2]
+- [Thanks][3]
 
 ## Installation
 
@@ -198,7 +190,7 @@ startedStep: { index in
 ### Codable Function
 You might want to save a function so it stays the same even after restarting the app or add a function to a document. You can accomplish that with `CodableFunction`, a wrapper around `Function` that makes it conform to `Codable`. 
 
-Information defined by the developer and that cannot be changed as for example the available functions have to be stored as static variables in a separate type conforming to the `CodableFunctionInformation` protocol. This type is also used by the function’s encoder and decoder to encoder or decode an action type. As you as the developer know every available type in the functions (do not forget `ControlFlow`), you can try to convert the type value to its real type and with that create an encoder and decoder. Here is an example. You can find a working example in the [TestApp][5].
+Information defined by the developer and that cannot be changed as for example the available functions have to be stored as static variables in a separate type conforming to the `CodableFunctionInformation` protocol. This type is also used by the function’s encoder and decoder to encoder or decode an action type. As you as the developer know every available type in the functions (do not forget `ControlFlow`), you can try to convert the type value to its real type and with that create an encoder and decoder. Here is an example. You can find a working example in the [TestApp][4].
 ```swift
 // ...
 init(from decoder: Decoder) throws {
@@ -226,34 +218,33 @@ func encode(to encoder: Encoder) throws {
 ## Thanks
 
 ### Dependencies
--  [SFSafeSymbols][6] licensed under the [MIT license][7]
-- [SwiftLintPlugin][8] licensed under the [MIT license][9]
-- [ColibriComponents][10] licensed under the [MIT license][11]
+-  [SFSafeSymbols][5] licensed under the [MIT license][6]
+- [SwiftLintPlugin][7] licensed under the [MIT license][8]
+- [ColibriComponents][9] licensed under the [MIT license][10]
 
 ### Other Thanks
-- The [contributors][12]
-- [SourceDocs][13] used for generating the [docs][14]
-- [SwiftLint][15] for checking whether code style conventions are violated
-- AudioKit: File [NodeEditor+Drawing.swift][16] in the [AudioKit/Flow][17] GitHub repository
-- The programming language [Swift][18]
+- The [contributors][11]
+- [SourceDocs][12] used for generating the [docs][13]
+- [SwiftLint][14] for checking whether code style conventions are violated
+- AudioKit: File [NodeEditor+Drawing.swift][15] in the [AudioKit/Flow][16] GitHub repository
+- The programming language [Swift][17]
 
-[1]:	#Elements
-[2]:	#Installation
-[3]:	#Usage
-[4]:	#Thanks
-[5]:	Tests/ActionKitTests/TestApp/
-[6]:	https://github.com/SFSafeSymbols/SFSafeSymbols
-[7]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
-[8]:	https://github.com/lukepistrol/SwiftLintPlugin
-[9]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
-[10]:	https://github.com/david-swift/ColibriComponents-macOS
-[11]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
-[12]:	Contributors.md
-[13]:	https://github.com/SourceDocs/SourceDocs
-[14]:	Documentation/Reference/ActionKit/README.md
-[15]:	https://github.com/realm/SwiftLint
-[16]:	https://github.com/AudioKit/Flow/blob/main/Sources/Flow/Views/NodeEditor+Drawing.swift
-[17]:	https://github.com/AudioKit/Flow
-[18]:	https://github.com/apple/swift
+[1]:	#installation
+[2]:	#usage
+[3]:	#thanks
+[4]:	Tests/ActionKitTests/TestApp/
+[5]:	https://github.com/SFSafeSymbols/SFSafeSymbols
+[6]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
+[7]:	https://github.com/lukepistrol/SwiftLintPlugin
+[8]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
+[9]:	https://github.com/david-swift/ColibriComponents-macOS
+[10]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
+[11]:	Contributors.md
+[12]:	https://github.com/SourceDocs/SourceDocs
+[13]:	Documentation/Reference/ActionKit/README.md
+[14]:	https://github.com/realm/SwiftLint
+[15]:	https://github.com/AudioKit/Flow/blob/main/Sources/Flow/Views/NodeEditor+Drawing.swift
+[16]:	https://github.com/AudioKit/Flow
+[17]:	https://github.com/apple/swift
 
 [image-1]:	Icons/GitHubBanner.png
