@@ -1,31 +1,9 @@
-<p align="center">
-  <img width="256" alt="ActionKit Icon" src="Icons/ActionKitIcon.png">
-  <h1 align="center">ActionKit</h1>
-</p>
+# Getting started
 
-<p align="center">
-  <a href="https://david-swift.github.io/ActionKit-macOS">
-  Documentation
-  </a>
-  ·
-  <a href="https://github.com/david-swift/ActionKit-macOS">
-  GitHub
-  </a>
-</p>
-
-_ActionKit_ contains an editor for visual scripting. The developer can provide functions the user can use as nodes, the input and output parameters and run the function defined by the user. It is also possible to add custom data types that conform to the `ActionType` protocol.
-
-![GitHub Banner][image-1]
-
-## Table of Contents
-
-- [Installation][1]
-- [Usage][2]
-- [Thanks][3]
+Learn how to use the _ActionKit_ package.
 
 ## Installation
-
-### Swift Package
+### Swift package
 1. Open your Swift package in Xcode.
 2. Navigate to `File > Add Packages`.
 3. Paste this URL into the search field: `https://github.com/david-swift/ActionKit-macOS`
@@ -33,7 +11,7 @@ _ActionKit_ contains an editor for visual scripting. The developer can provide f
 5. Navigate to the `Package.swift` file.
 6. In the `Package` initializer, under `dependencies`, paste the dependency into the array.
 
-###  Xcode Project
+###  Xcode project
 1. Open your Xcode project in Xcode.
 2. Navigate to `File > Add Packages`.
 3. Paste this URL into the search field: `https://github.com/david-swift/ActionKit-macOS`
@@ -42,7 +20,7 @@ _ActionKit_ contains an editor for visual scripting. The developer can provide f
 ## Usage
 
 ### Function
-You first need to define the function that the user can edit. You need to define a function identifier, name and description. 
+You first need to define the ``Function`` which the user can edit. You need to define a function identifier, name and description. 
 ```swift
 @State private var function = Function(
     id: "user-function",
@@ -74,7 +52,7 @@ output: [
 // ...
 ```
 
-If you do not provide functions for the user, function will add a default set with functions for text, numbers, booleans and the control flow. You can provide custom functions. 
+If you do not provide functions for the user, ``Function/init(id:name:description:input:output:getOutput:nodes:wires:functions:)`` will add a default set with functions for text, numbers, booleans and the control flow. You can provide custom functions. 
 Here is an example of a custom function group „My Functions“ containing a function for printing text into the console.
 ```swift
 // ...
@@ -97,7 +75,7 @@ functions: [
 You can also access the default set (`[Folder<Function>.default`), parts of the default set (`.numberFunctions`, `.textFunctions`, `.booleanFunctions`, `.controlFlowFunctions`, `.mergeFlowGroup`) or even parts of those sets and add them to your functions.
 
 ### Function Editor
-Now that you have defined the function the user can define, it’s time to use the `FunctionEditor` in a SwiftUI view.
+Now that you have defined the function the user can define, it’s time to use the ``FunctionEditor`` in a SwiftUI view.
 ```swift
 var body: some View {
     FunctionEditor($function)
@@ -170,7 +148,7 @@ You can throw an error by providing a `Binding`. If the wrapped value changes to
 
 ### Running the Function
 You can run the function defined by the user. The input values should match the parameters defined as the function’s input.
-If everything works fine, you get the function’s output as `[ActionType]`, else, the function throws an error.
+If everything works fine, you get the function’s output as an array of ``ActionType``, otherwise, the function throws an error.
 ```swift
 let output = try function.run(input: ["Peter", 23, Profession.developer])
 ```
@@ -188,9 +166,9 @@ startedStep: { index in
 ```
 
 ### Codable Function
-You might want to save a function so it stays the same even after restarting the app or add a function to a document. You can accomplish that with `CodableFunction`, a wrapper around `Function` that makes it conform to `Codable`. 
+You might want to save a function so it stays the same even after restarting the app or add a function to a document. You can accomplish that with ``CodableFunction``, a wrapper around ``Function`` that makes it conform to `Codable`. 
 
-Information defined by the developer and that cannot be changed as for example the available functions have to be stored as static variables in a separate type conforming to the `CodableFunctionInformation` protocol. This type is also used by the function’s encoder and decoder to encoder or decode an action type. As you as the developer know every available type in the functions (do not forget `ControlFlow`), you can try to convert the type value to its real type and with that create an encoder and decoder. Here is an example. You can find a working example in the [TestApp][4].
+Information defined by the developer and that cannot be changed as for example the available functions have to be stored as static variables in a separate type conforming to the ``CodableFunctionInformation`` protocol. This type is also used by the function’s encoder and decoder to encoder or decode an action type. As you as the developer know every available type in the functions (do not forget ``ControlFlow``), you can try to convert the type value to its real type and with that create an encoder and decoder. Here is an example. You can find a working example in the [TestApp][4].
 ```swift
 // ...
 init(from decoder: Decoder) throws {
@@ -215,36 +193,8 @@ func encode(to encoder: Encoder) throws {
 // ...
 ```
 
-## Thanks
+## Development
+SettingsKit is an open source project. Visit the [GitHub repository][1] for bug reports, feature requests, pull requests and more information.
 
-### Dependencies
--  [SFSafeSymbols][5] licensed under the [MIT license][6]
-- [SwiftLintPlugin][7] licensed under the [MIT license][8]
-- [ColibriComponents][9] licensed under the [MIT license][10]
-
-### Other Thanks
-- The [contributors][11]
-- [SourceDocs][12] used for generating the [docs][13]
-- [SwiftLint][14] for checking whether code style conventions are violated
-- AudioKit: File [NodeEditor+Drawing.swift][15] in the [AudioKit/Flow][16] GitHub repository
-- The programming language [Swift][17]
-
-[1]:	#installation
-[2]:	#usage
-[3]:	#thanks
-[4]:	Tests/ActionKitTests/TestApp/
-[5]:	https://github.com/SFSafeSymbols/SFSafeSymbols
-[6]:	https://github.com/SFSafeSymbols/SFSafeSymbols/blob/stable/LICENSE
-[7]:	https://github.com/lukepistrol/SwiftLintPlugin
-[8]:	https://github.com/lukepistrol/SwiftLintPlugin/blob/main/LICENSE
-[9]:	https://github.com/david-swift/ColibriComponents-macOS
-[10]:	https://github.com/david-swift/ColibriComponents-macOS/blob/main/LICENSE.md
-[11]:	Contributors.md
-[12]:	https://github.com/SourceDocs/SourceDocs
-[13]:	Documentation/Reference/ActionKit/README.md
-[14]:	https://github.com/realm/SwiftLint
-[15]:	https://github.com/AudioKit/Flow/blob/main/Sources/Flow/Views/NodeEditor+Drawing.swift
-[16]:	https://github.com/AudioKit/Flow
-[17]:	https://github.com/apple/swift
-
-[image-1]:	Icons/GitHubBanner.png
+[1]:    https://github.com/david-swift/SettingsKit-macOS
+[4]:    https://github.com/david-swift/ActionKit-macOS/tree/main/Tests/ActionKitTests/TestApp

@@ -45,7 +45,7 @@ public enum ControlFlow: ActionType, CaseIterable, Identifiable {
     /// - Returns: The view containing the picker.
     public static func picker(value: Binding<ActionType>) -> any View {
         let value = value.get(default: Self.signal)
-        Picker(.init("Control Flow", comment: "ControlFlow (Label of the control flow picker)"), selection: value) {
+        Picker("Control Flow", selection: value) {
             ForEach(Self.allCases) { flowValue in
                 Text(flowValue.localized)
                     .tag(flowValue)

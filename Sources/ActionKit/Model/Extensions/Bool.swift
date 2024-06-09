@@ -28,10 +28,7 @@ extension Bool: ActionType {
     /// - Parameter value: The selected boolean.
     /// - Returns: The picker view.
     public static func picker(value: Binding<ActionType>) -> any View {
-        Picker(
-            .init("Boolean", comment: "Bool (Label of the picker for selecting a boolean)"),
-            selection: value.get(default: false)
-        ) {
+        Picker("Boolean", selection: value.get(default: false)) {
             ForEach([true, false], id: \.hashValue) { bool in
                 Text(bool.localized)
                     .tag(bool)

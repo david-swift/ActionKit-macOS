@@ -5,7 +5,6 @@
 //  Created by david-swift on 14.02.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 /// The view of a functions group in the expanded ``FunctionsView``.
@@ -61,10 +60,9 @@ struct FunctionsGroupView_Previews: PreviewProvider {
             group:
                 .init(
                     "Hello",
-                    icon: .init(systemSymbol: .arrowUp)
-                ) {
-                    .init(id: "add", name: "Add", description: "Add two numbers.")
-                },
+                    icon: .init(systemName: "arrow.up"),
+                    content: [.init(id: "add", name: "Add", description: "Add two numbers.")]
+                ),
             offset: .zero
         )
     }

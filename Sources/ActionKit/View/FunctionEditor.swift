@@ -5,7 +5,6 @@
 //  Created by david-swift on 30.01.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 /// The editor for a function.
@@ -59,33 +58,33 @@ public struct FunctionEditor: View {
         .overlay {
             DragFunctionView(dragFunction: $model.dragFunction, function: $function, scrollValue: model.scrollValue)
         }
-        .onChange(of: model.selection) { newValue in
-            observeSelection?.wrappedValue = newValue
+        .onChange(of: model.selection) {
+            observeSelection?.wrappedValue = model.selection
         }
-        .onChange(of: observeSelection?.wrappedValue) { newValue in
-            if let newValue {
-                model.selection = newValue
+        .onChange(of: observeSelection?.wrappedValue) {
+            if let selection = observeSelection?.wrappedValue {
+                model.selection = selection
             }
         }
-        .onChange(of: model.actions) { newValue in
-            observeActions?.wrappedValue = newValue
+        .onChange(of: model.actions) {
+            observeActions?.wrappedValue = model.actions
         }
-        .onChange(of: observeActions?.wrappedValue) { newValue in
-            if let newValue {
-                model.actions = newValue
+        .onChange(of: observeActions?.wrappedValue) {
+            if let observeActions = observeActions?.wrappedValue {
+                model.actions = observeActions
             }
         }
-        .onChange(of: model.expandFunctionsView) { newValue in
-            observeExpandFunctions?.wrappedValue = newValue
+        .onChange(of: model.expandFunctionsView) {
+            observeExpandFunctions?.wrappedValue = model.expandFunctionsView
         }
-        .onChange(of: observeExpandFunctions?.wrappedValue) { newValue in
-            if let newValue {
-                model.expandFunctionsView = newValue
+        .onChange(of: observeExpandFunctions?.wrappedValue) {
+            if let observeExpandFunctions = observeExpandFunctions?.wrappedValue {
+                model.expandFunctionsView = observeExpandFunctions
             }
         }
-        .onChange(of: developerError?.wrappedValue) { newValue in
-            if let newValue {
-                FunctionError.show(error: $model.error, newError: .devError(message: newValue))
+        .onChange(of: developerError?.wrappedValue) {
+            if let error = developerError?.wrappedValue {
+                FunctionError.show(error: $model.error, newError: .devError(message: error))
             }
         }
     }
@@ -133,20 +132,20 @@ public struct FunctionEditor: View {
     ///   - function: The editable function as a binding.
     ///   - zoom: The zoom value.
     ///   - functionsView: Whether there is a view showing all the functions or not.
-    ///   - openNode: The function for opening the definition of a node's function.
     ///   - extraActions: Buttons displayed directly above the functions view in the editor.
+    ///   - openNode: The function for opening the definition of a node's function.
     public init(
         _ function: Binding<Function>,
         zoom: Double = 1,
         functionsView: Bool = true,
-        openNode: ((Function) -> Void)? = nil,
-        @ArrayBuilder<ExtraAction> extraActions: () -> [ExtraAction] = { [] }
+        extraActions: [ExtraAction] = [],
+        openNode: ((Function) -> Void)? = nil
     ) {
         self._function = function
         self._model = .init(wrappedValue: .init(zoom: zoom, functionsView: functionsView && zoom == 1))
         self.openNode = openNode
-        self.extraActions = extraActions()
-        developerError = String?.none.binding { _ in }
+        self.extraActions = extraActions
+        developerError = nil
     }
 
 }

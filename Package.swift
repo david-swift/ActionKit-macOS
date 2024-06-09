@@ -1,4 +1,4 @@
-//  swift-tools-version: 5.7
+//  swift-tools-version: 5.9
 //
 //  Package.swift
 //  ActionKit
@@ -12,7 +12,7 @@ import PackageDescription
 let package = Package(
     name: "ActionKit",
     platforms: [
-        .macOS(.v13)
+        .macOS(.v14)
     ],
     products: [
         .library(
@@ -21,15 +21,11 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
-        .package(url: "https://github.com/david-swift/ColibriComponents-macOS", from: "0.1.7")
+        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2")
     ],
     targets: [
         .target(
             name: "ActionKit",
-            dependencies: [
-                .product(name: "ColibriComponents", package: "ColibriComponents-macOS")
-            ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]

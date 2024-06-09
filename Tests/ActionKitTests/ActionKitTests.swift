@@ -56,7 +56,7 @@ final class ActionKitTests: XCTestCase {
                 .init(from: (0, 1), to: (3, 2)),
                 .init(from: (0, 0), to: (2, 0))
             ],
-            functions: [.init("", icon: .init("")) { add; printText }]
+            functions: [.init("", icon: .init(""), content: [add, printText])]
         )
         XCTAssertEqual(try simpleCustomFunction.run(input: ["Hello"]) as? [String] ?? [], ["Hello", "Hello"])
 
@@ -73,7 +73,7 @@ final class ActionKitTests: XCTestCase {
                 .init(from: (0, 2), to: (1, 2)),
                 .init(from: (1, 1), to: (2, 1))
             ],
-            functions: [.init("", icon: .init("")) { add }]
+            functions: [.init("", icon: .init(""), content: [add])]
         )
         XCTAssertEqual(try addCustomFunction.run(input: [1.0, 2.0]) as? [Double] ?? [], [3.0])
 
@@ -90,7 +90,7 @@ final class ActionKitTests: XCTestCase {
                 .init(from: (0, 2), to: (1, 2)),
                 .init(from: (1, 1), to: (2, 1))
             ],
-            functions: [.init("", icon: .init("")) { addCustomFunction }]
+            functions: [.init("", icon: .init(""), content: [addCustomFunction])]
         )
         XCTAssertEqual(try customInCustomFunction.run(input: [1.0, 2.0]) as? [Double] ?? [], [3.0])
     }

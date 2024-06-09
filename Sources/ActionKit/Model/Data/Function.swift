@@ -5,11 +5,10 @@
 //  Created by david-swift on 29.01.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 /// A function that can be edited in the ``FunctionEditor`` or executed.
-public struct Function: Identifiable, Equatable, ColibriComponents.Bindable {
+public struct Function: Identifiable, Equatable {
 
     /// The function's identifier.
     public let id: String

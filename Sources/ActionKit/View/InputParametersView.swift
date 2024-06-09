@@ -54,7 +54,7 @@ struct InputParametersView: View {
             }
         }
         ToolbarItem(placement: .confirmationAction) {
-            Button.confirmationButton {
+            Button("Confirm") {
                 actions = .menu
             }
             .labelStyle(.titleOnly)

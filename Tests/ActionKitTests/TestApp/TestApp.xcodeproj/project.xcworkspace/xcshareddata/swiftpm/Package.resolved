@@ -1,24 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "colibricomponents-macos",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/david-swift/ColibriComponents-macOS",
-      "state" : {
-        "revision" : "31a3fb89a104b4608d3e369ad25fdaef7b61aa5d",
-        "version" : "0.1.5"
-      }
-    },
-    {
-      "identity" : "sfsafesymbols",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SFSafeSymbols/SFSafeSymbols",
-      "state" : {
-        "revision" : "7cca2d60925876b5953a2cf7341cd80fbeac983c",
-        "version" : "4.1.1"
-      }
-    },
-    {
       "identity" : "swiftlintplugin",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lukepistrol/SwiftLintPlugin",

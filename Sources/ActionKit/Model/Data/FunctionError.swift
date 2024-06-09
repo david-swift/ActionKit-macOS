@@ -27,11 +27,9 @@ enum FunctionError: Equatable {
         }
         Task {
             try await Task.sleep(for: .seconds(.displayError))
-            await MainActor.run {
-                withAnimation {
-                    if error.wrappedValue == newError {
-                        error.wrappedValue = .noError
-                    }
+            withAnimation {
+                if error.wrappedValue == newError {
+                    error.wrappedValue = .noError
                 }
             }
         }

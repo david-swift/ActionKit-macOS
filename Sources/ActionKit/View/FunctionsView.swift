@@ -5,7 +5,6 @@
 //  Created by david-swift on 14.02.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 /// The view at the bottom of a ``FunctionEditor`` for showing the available functions.
@@ -56,11 +55,8 @@ struct FunctionsView: View {
             expand.toggle()
         } label: {
             Label(
-                .init(
-                    "Expand",
-                    comment: "FunctionsView (Button for expanding the functions view)"
-                ),
-                systemSymbol: expand ? .arrowDown : .arrowUp
+                "Expand",
+                systemImage: expand ? "arrow.down" : "arrow.up"
             )
             .actionButton()
             .labelStyle(.iconOnly)
@@ -132,9 +128,11 @@ struct FunctionsView_Previews: PreviewProvider {
                     expand: .constant(false),
                     dragFunction: .constant(nil),
                     functions: [
-                        .init("Hello", icon: .init(systemSymbol: .handWave)) {
-                            Function(id: "test", name: "Test", description: "A description.")
-                        }
+                        .init(
+                            "Hello",
+                            icon: .init(systemName: "hand.wave"),
+                            content: [.init(id: "test", name: "Test", description: "A description.")]
+                        )
                     ],
                     extraActions: []
                 )

@@ -18,7 +18,7 @@ struct ErrorMessage: View {
     /// The view's body.
     var body: some View {
         HStack {
-            Image(systemSymbol: .exclamationmarkCircleFill)
+            Image(systemName: "exclamationmark.circle.fill")
                 .accessibilityLabel(
                     .init(
                         "An error occured.",

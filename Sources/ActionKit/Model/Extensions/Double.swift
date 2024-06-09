@@ -46,11 +46,7 @@ extension Double: ActionType {
     /// - Parameter value: The binded value.
     /// - Returns: A view containing the text field.
     public static func picker(value: Binding<ActionType>) -> any View {
-        TextField(
-            String(localized: .init("Number", comment: "Double (Name of double text field)")),
-            value: value.get(default: 0),
-            format: .number
-        )
+        TextField("Number", value: value.get(default: 0), format: .number)
     }
 
 }

@@ -6,7 +6,7 @@
 //
 
 import ActionKit
-import ColibriComponents
+import AppKit
 import Foundation
 
 /// An example view model.
@@ -15,7 +15,6 @@ class ViewModel: ObservableObject {
     /// The example codable function.
     @Published var function: CodableFunction<Information> {
         didSet {
-            UndoProvider.registerUndo(withTarget: self) { $0.function = oldValue }
             let data = try? JSONEncoder().encode(function)
             if let data {
                 UserDefaults.standard.set(data, forKey: "function")
@@ -50,25 +49,33 @@ class ViewModel: ObservableObject {
 
         /// The function's types.
         static var types: [ActionType.Type] {
-            String.self
-            Double.self
-            Bool.self
+            [
+                String.self,
+                Double.self,
+                Bool.self
+            ]
         }
 
         /// The available functions.
         static var functions: [Folder<Function>] {
-            for group in [Folder<Function>].default { group }
-            Folder<Function>("Print", icon: .init(systemSymbol: .textJustify)) {
+            .default +
+            [
                 .init(
-                    id: "print",
-                    name: "Print",
-                    description: "Print a text into the developer's console.",
-                    input: [.init("Text", type: String.self)]
-                ) { input in
-                    print(input.first as? String ?? "-")
-                    return []
-                }
-            }
+                    "Print",
+                    icon: .init(systemName: "text.justify"),
+                    content: [
+                        .init(
+                            id: "print",
+                            name: "Print",
+                            description: "Print a text into the developer's console.",
+                            input: [.init("Text", type: String.self)]
+                        ) { input in
+                            print(input.first as? String ?? "-")
+                            return []
+                        }
+                    ]
+                )
+            ]
         }
 
         /// The value of a information instance.

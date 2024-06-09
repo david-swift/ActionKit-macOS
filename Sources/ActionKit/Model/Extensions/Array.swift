@@ -5,7 +5,6 @@
 //  Created by david-swift on 16.02.23.
 //
 
-import ColibriComponents
 import Foundation
 
 extension Array where Element == Folder<Function> {
@@ -26,10 +25,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the operators set in the number functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .divide)
-            ) {
-                for function in numberOperatorsFunctions { function }
-            },
+                icon: .init(systemName: "divide"),
+                content: numberOperatorsFunctions
+            ),
             .init(
                 .init(
                     localized: .init(
@@ -37,10 +35,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the relations set in the number functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .greaterthan)
-            ) {
-                for function in numberRelationsFunctions { function }
-            },
+                icon: .init(systemName: "greaterthan"),
+                content: numberRelationsFunctions
+            ),
             .init(
                 .init(
                     localized: .init(
@@ -48,10 +45,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the conversion set in the number functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .arrowRight)
-            ) {
-                for function in numberConversionFunctions { function }
-            }
+                icon: .init(systemName: "arrow.right"),
+                content: numberConversionFunctions
+            )
         ]
 
     /// Operators for numbers as functions.
@@ -204,10 +200,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the operators set in the text functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .plus)
-            ) {
-                for function in textOperatorsFunctions { function }
-            },
+                icon: .init(systemName: "plus"),
+                content: textOperatorsFunctions
+            ),
             .init(
                 .init(
                     localized: .init(
@@ -215,10 +210,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the relations set in the text functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .equal)
-            ) {
-                for function in textRelationsFunctions { function }
-            },
+                icon: .init(systemName: "equal"),
+                content: textRelationsFunctions
+            ),
             .init(
                 .init(
                     localized: .init(
@@ -226,10 +220,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the conversion set in the text functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .arrowRight)
-            ) {
-                for function in textConversionFunctions { function }
-            }
+                icon: .init(systemName: "arrow.right"),
+                content: textConversionFunctions
+            )
         ]
 
     /// Operators for text as functions.
@@ -306,10 +299,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the logical operators set in the boolean functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .exclamationmark)
-            ) {
-                for function in logicalOperatorsFunctions { function }
-            },
+                icon: .init(systemName: "exclamationmark"),
+                content: logicalOperatorsFunctions
+            ),
             .init(
                 .init(
                     localized: .init(
@@ -317,10 +309,9 @@ extension Array where Element == Folder<Function> {
                         comment: "Array (The localized name of the conversion set in the boolean functions)"
                     )
                 ),
-                icon: .init(systemSymbol: .arrowRight)
-            ) {
-                for function in booleanConversionFunctions { function }
-            }
+                icon: .init(systemName: "arrow.right"),
+                content: booleanConversionFunctions
+            )
         ]
 
     /// Logical operators functions.

@@ -5,7 +5,6 @@
 //  Created by david-swift on 04.02.23.
 //
 
-import ColibriComponents
 import SwiftUI
 
 /// The view for a node.
@@ -37,20 +36,20 @@ struct NodeView: View {
                 inputPoints
                 outputPoints
             }
-            .freeformToolbar(visibility: selected && actions != .hidden, y: .nodeToolbarPosition(height)) {
-                for item in tools {
-                    ToolbarAction(.init(localized: item.title), symbol: item.icon, action: item.action)
-                }
-            }
+            .freeformToolbar(
+                visibility: selected && actions != .hidden,
+                actions: tools.map { .init(.init(localized: $0.title), symbol: $0.icon, action: $0.action) },
+                y: .nodeToolbarPosition(height)
+            )
             .contextMenu {
                 ForEach(tools, id: \.title.key) { item in
-                    Button(item.title.localized) {
+                    Button(String(localized: item.title)) {
                         selected = true
                         item.action()
                     }
                 }
             }
-            .sheet(isPresented: (actions == .parameters && selected).binding { newValue in
+            .sheet(isPresented: .init { (actions == .parameters && selected) } set: { newValue in
                 if newValue {
                     actions = .parameters
                 } else {
@@ -66,7 +65,7 @@ struct NodeView: View {
                 )
                     .background(.clear)
             }
-            .popover(isPresented: (actions == .definition && selected).binding { newValue in
+            .popover(isPresented: .init { (actions == .definition && selected) } set: { newValue in
                 if newValue {
                     actions = .definition
                 } else {
@@ -85,27 +84,30 @@ struct NodeView: View {
     /// The actions for the node.
     /// They are defined with ``NodeView.Action`` so that they can be used in the custom actions view
     /// and in the context menu.
-    @ArrayBuilder<Action> private var tools: [Action] {
-        Action(
-            title: .init("Parameters", comment: "NodeView (The name of the action for showing the parameters)"),
-            icon: .init(systemSymbol: .circleFill)
-        ) {
-            actions = .parameters
-        }
-        Action(
-            title: .init("Definition", comment: "NodeView (The name of the action for showing the definition)"),
-            icon: .init(systemSymbol: .ellipsisCurlybraces)
-        ) {
-            actions = .definition
-        }
+    private var tools: [Action] {
+        var actions: [Action] = [
+            .init(
+                title: .init("Parameters", comment: "NodeView (The name of the action for showing the parameters)"),
+                icon: .init(systemName: "circle.fill")
+            ) {
+                self.actions = .parameters
+            },
+            .init(
+                title: .init("Definition", comment: "NodeView (The name of the action for showing the definition)"),
+                icon: .init(systemName: "ellipsis.curlybraces")
+            ) {
+                self.actions = .definition
+            }
+        ]
         if node.function != .input && node.function != .output {
-            Action(
+            actions.append(.init(
                 title: .init("Delete", comment: "NodeView (The name of the action for deleting the node)"),
-                icon: .init(systemSymbol: .xmark)
+                icon: .init(systemName: "xmark")
             ) {
                 function.allNodes = function.allNodes.filter { $0.id != node.id }
-            }
+            })
         }
+        return actions
     }
 
     /// The input points view.
@@ -162,7 +164,7 @@ struct NodeView: View {
     /// The popover for presenting the definition of the node's function.
     @ViewBuilder private var functionPopover: some View {
         if let nodeFunction, nodeFunction.getOutput == nil {
-            FunctionEditor(nodeFunction.binding { _ in }, zoom: .functionPopoverZoom, functionsView: false)
+            FunctionEditor(.constant(nodeFunction), zoom: .functionPopoverZoom, functionsView: false)
                 .frame(width: .functionPopoverSideLength, height: .functionPopoverSideLength)
             .overlay {
                 if let open {

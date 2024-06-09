@@ -183,10 +183,7 @@ extension String: ActionType {
     /// - Parameter value: The text.
     /// - Returns: A view containing the text field.
     public static func picker(value: Binding<ActionType>) -> any View {
-        TextField(
-            .init("Text", comment: "Double (Name of text field)"),
-            text: value.get(default: "")
-        )
+        TextField("Text", text: value.get(default: ""))
     }
 
 }

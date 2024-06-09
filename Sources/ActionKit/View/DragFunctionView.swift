@@ -25,8 +25,8 @@ struct DragFunctionView: View {
                     .opacity(.dragFunctionOpacity)
             }
             .position(dragFunction.position)
-            .onChange(of: dragFunction.place) { newValue in
-                if newValue {
+            .onChange(of: dragFunction.place) {
+                if dragFunction.place {
                     self.function.allNodes.append(
                         .init(
                             function: dragFunction.function.id,

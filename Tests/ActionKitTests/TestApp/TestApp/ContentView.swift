@@ -7,7 +7,6 @@
 //  swiftlint:disable no_magic_numbers
 
 import ActionKit
-import ColibriComponents
 import SwiftUI
 
 /// The test app's content.
@@ -87,40 +86,41 @@ struct ContentView: View {
     private func editor(function: Binding<CodableFunction<ViewModel.Information>>) -> some View {
         FunctionEditor(
             function.function,
-            zoom: 1
+            zoom: 1,
+            extraActions: [
+                TaggedView(tag: "run") {
+                    Button {
+                        do {
+                            let input: [ActionType] = function.wrappedValue.function.dataInput.map { parameter in
+                                switch parameter.type.name {
+                                case "Text":
+                                    return "Some Text"
+                                case "Number":
+                                    return Double.random(in: 0...10)
+                                default:
+                                    return Bool.random()
+                                }
+                            }
+                            let output = try function.wrappedValue.function.run(input: input)
+                            for outputItem in output {
+                                print(outputItem)
+                            }
+                            print("\n")
+                        } catch {
+                            if let error = error as? Function.ExecutionError {
+                                switch error {
+                                case .emptyIteration:
+                                    model.error = "Empty Iteration"
+                                }
+                            }
+                        }
+                    } label: {
+                        Label("Run", systemImage: "play.fill")
+                    }
+                }
+            ]
         ) { _ in
 
-        } extraActions: {
-            TaggedView(tag: "run") {
-                Button {
-                    do {
-                        let input: [ActionType] = function.wrappedValue.function.dataInput.map { parameter in
-                            switch parameter.type.name {
-                            case "Text":
-                                return "Some Text"
-                            case "Number":
-                                return Double.random(in: 0...10)
-                            default:
-                                return Bool.random()
-                            }
-                        }
-                        let output = try function.wrappedValue.function.run(input: input)
-                        for outputItem in output {
-                            print(outputItem)
-                        }
-                        print("\n")
-                    } catch {
-                        if let error = error as? Function.ExecutionError {
-                            switch error {
-                            case .emptyIteration:
-                                model.error = "Empty Iteration"
-                            }
-                        }
-                    }
-                } label: {
-                    Label("Run" as String, systemSymbol: .playFill)
-                }
-            }
         }
         .throwError(error: $model.error)
     }

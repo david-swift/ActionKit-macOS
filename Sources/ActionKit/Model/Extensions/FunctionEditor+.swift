@@ -59,9 +59,9 @@ extension FunctionEditor {
         ForEach(function.allNodes) { node in
             nodeView(node: node)
                 .position(node.position)
-                .onChange(of: selectionRectangle) { newValue in
-                    if let newValue {
-                        if newValue.contains(node.position) {
+                .onChange(of: selectionRectangle) {
+                    if let selectionRectangle {
+                        if selectionRectangle.contains(node.position) {
                             model.selection.insert(node.id)
                         } else {
                             model.selection.remove(node.id)
@@ -93,7 +93,9 @@ extension FunctionEditor {
                 model.actions = newValue
             },
             error: $model.error,
-            selected: model.selection.contains(node.id).binding { newValue in
+            selected: .init {
+                model.selection.contains(node.id)
+            } set: { newValue in
                 if newValue {
                     model.selection = [node.id]
                 }

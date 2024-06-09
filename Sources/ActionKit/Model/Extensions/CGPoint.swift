@@ -5,7 +5,6 @@
 //  Created by david-swift on 04.02.23.
 //
 
-import ColibriComponents
 import Foundation
 
 extension CGPoint {

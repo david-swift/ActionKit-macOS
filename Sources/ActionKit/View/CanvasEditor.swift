@@ -14,6 +14,8 @@ public struct CanvasEditor<Item>: View where Item: View {
     @StateObject private var model = CanvasEditorModel()
     /// The selected items.
     @Binding var selection: Set<UUID>
+    /// The scroll position.
+    @State private var scrollPosition: Int?
     /// The items with the selection rectangle as a parameter.
     var items: (CGRect?) -> Item
     /// The editor's side length.
@@ -32,6 +34,12 @@ public struct CanvasEditor<Item>: View where Item: View {
                 selectionRectangle
                 background
                 items(model.showSelectionRectangle ? model.selectionRectangle : nil)
+                let width = 900.0
+                let height = 400.0
+                Text(String())
+                    .frame(width: width, height: height)
+                    .opacity(0)
+                    .id(0)
             }
             .geometry { geometry in
                 let rect = geometry.frame(in: .named(coordinateSpace))
@@ -40,6 +48,10 @@ public struct CanvasEditor<Item>: View where Item: View {
             .scaleEffect(zoom)
         }
         .coordinateSpace(name: coordinateSpace)
+        .scrollPosition(id: $scrollPosition)
+        .task {
+            scrollPosition = 0
+        }
     }
 
     /// The view of the rectangle for selecting items.
