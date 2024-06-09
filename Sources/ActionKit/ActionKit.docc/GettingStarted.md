@@ -196,5 +196,5 @@ func encode(to encoder: Encoder) throws {
 ## Development
 SettingsKit is an open source project. Visit the [GitHub repository][1] for bug reports, feature requests, pull requests and more information.
 
-[1]:    https://github.com/david-swift/SettingsKit-macOS
+[1]:    https://github.com/david-swift/ActionKit-macOS
 [4]:    https://github.com/david-swift/ActionKit-macOS/tree/main/Tests/ActionKitTests/TestApp
